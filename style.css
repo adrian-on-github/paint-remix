@@ -1,0 +1,17 @@
+body {
+  background-color: white;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 90%;
+  height: 60vh;
+  border: 2px solid black;
+  margin-top: 15px;
+  justify-content: center;
+  align-items: center;
+}
