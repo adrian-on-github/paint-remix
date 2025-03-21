@@ -1,5 +1,17 @@
 "use strict";
 
+/* Functions:
+
+
+Radiergummi
+hold and draw
+exact color switcher
+share function/ take ss
+ui
+exact pixels
+
+*/
+
 console.log("Hello world");
 
 const body = document.querySelector("body");
@@ -9,11 +21,15 @@ const ctx = canvas.getContext("2d");
 
 let RED, GREEN, BLUE, YELLOW, BLACK;
 let COLOR = "#000000";
+let SIZE = 5;
+const targets = [];
+let STATE = false;
 
-function drawPixel(x, y, color, width, height) {
+function drawPixel(x, y) {
   if (canvas.getContext) {
-    ctx.fillRect(x, y, width, height);
-    ctx.fillStyle = `${color}`;
+    ctx.beginPath();
+    ctx.arc(x, y, SIZE, 0, 2 * Math.PI);
+    ctx.fillStyle = `${COLOR}`;
     ctx.fill();
   }
 }
@@ -25,10 +41,21 @@ color.addEventListener("change", (e) => {
   console.log(COLOR);
 });
 
-canvas.addEventListener("mousedown", (e) => {
-  if (COLOR) {
-    drawPixel(e.offsetX, e.offsetY, COLOR, 10, 10);
-  }
+canvas.addEventListener("mousedown", () => {
+  STATE = true;
+  canvas.addEventListener("mousemove", (e) => {
+    if (STATE === true) {
+      targets.push(e);
 
-  console.log(e);
+      targets.forEach((t) => {
+        if (COLOR && SIZE) {
+          drawPixel(Math.round(t.offsetX), Math.round(t.offsetY));
+        }
+      });
+    }
+  });
+});
+
+canvas.addEventListener("mouseup", () => {
+  STATE = false;
 });
