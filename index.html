@@ -8,14 +8,39 @@
   </head>
   <body>
     <div id="selector-row">
-      <input type="color" id="color" />
-      <label for="range">Size:</label>
-      <input type="range" id="range" value="5" />
-      <button id="reset">reset</button>
-      <label for="pencil">Pencil:</label>
-      <input type="radio" id="pencil" name="pencilCase" checked />
-      <label for="rubber">Rubber:</label>
-      <input type="radio" id="rubber" name="pencilCase" />
+      <form>
+        <div class="color-option">
+          <input type="radio" id="red" name="color" value="red" />
+          <label for="red" class="color-red"></label>
+        </div>
+
+        <div class="color-option">
+          <input type="radio" id="blue" name="color" value="blue" />
+          <label for="blue" class="color-blue"></label>
+        </div>
+
+        <div class="color-option">
+          <input type="radio" id="green" name="color" value="green" />
+          <label for="green" class="color-green"></label>
+        </div>
+        <div class="color-option">
+          <input type="radio" id="yellow" name="color" value="yellow" />
+          <label for="yellow" class="color-yellow"></label>
+        </div>
+        <div class="color-option">
+          <input type="radio" id="purple" name="color" value="purple" />
+          <label for="purple" class="color-purple"></label>
+        </div>
+
+        <input type="color" id="color" />
+        <label for="range">Size:</label>
+        <input type="range" id="range" value="5" />
+        <button id="reset">reset</button>
+        <label for="pencil">Pencil:</label>
+        <input type="radio" id="pencil" name="pencilCase" checked />
+        <label for="rubber">Rubber:</label>
+        <input type="radio" id="rubber" name="pencilCase" />
+      </form>
     </div>
 
     <canvas height="490" width="1830" id="container"></canvas>

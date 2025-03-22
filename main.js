@@ -4,7 +4,6 @@
 
 exact color switcher
 share function/ take ss
-zoom
 
 */
 
@@ -17,6 +16,8 @@ const pencil = document.getElementById("pencil");
 const rubber = document.getElementById("rubber");
 const ctx = canvas.getContext("2d");
 
+const form = document.querySelectorAll("form");
+
 let RED, GREEN, BLUE, YELLOW, BLACK;
 const targets = [];
 let COLOR = "#000000";
@@ -25,7 +26,10 @@ let STATE = false;
 let lastX = 0;
 let lastY = 0;
 let FOCUS = "pencil";
-let LEFT, RIGHT, UP, DOWN;
+let LEFT = false,
+  RIGHT = false,
+  UP = false,
+  DOWN = false;
 let x, y;
 
 canvas.addEventListener("mousemove", (e) => {
@@ -44,6 +48,13 @@ range.addEventListener("change", (e) => {
     SIZE += 2;
   }
   console.log(SIZE);
+});
+
+form.forEach((i) => {
+  i.addEventListener("change", (v) => {
+    v.preventDefault();
+    COLOR = v.target.value;
+  });
 });
 
 reset.addEventListener("click", (e) => {
@@ -74,63 +85,6 @@ function drawPixel(x, y, color, size) {
       ctx.arc(x, y, size, 0, 2 * Math.PI);
       ctx.fillStyle = color;
       ctx.fill();
-
-      if (RIGHT && SIZE >= 7) {
-        ctx.beginPath();
-        ctx.arc(x + 2, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x + 3, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x + 4, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
-      if (LEFT && SIZE >= 7) {
-        ctx.beginPath();
-        ctx.arc(x - 2, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x - 3, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x - 4, y, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
-      if (DOWN && SIZE >= 7) {
-        ctx.beginPath();
-        ctx.arc(x, y - 2, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, y - 3, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, y - 4, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
-      if (UP && SIZE >= 7) {
-        ctx.beginPath();
-        ctx.arc(x, y + 2, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, y + 3, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(x, y + 4, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
     }
   } else if (FOCUS === "rubber") {
     if (canvas.getContext) {
@@ -173,6 +127,37 @@ canvas.addEventListener("mousedown", (t) => {
     }
   });
 });
+
+canvas.addEventListener("mousedown", (t) => {
+  const newColor = COLOR;
+  const newSize = SIZE;
+  STATE = true;
+
+  drawPixel(Math.round(t.offsetX), Math.round(t.offsetY), newColor, newSize);
+
+  canvas.addEventListener("mousemove", onMouseMove);
+});
+
+canvas.addEventListener("mouseup", () => {
+  STATE = false;
+  canvas.removeEventListener("mousemove", onMouseMove);
+});
+
+function onMouseMove(e) {
+  if (STATE) {
+    const newColor = COLOR;
+    const newSize = SIZE;
+
+    if (newColor && newSize) {
+      drawPixel(
+        Math.round(e.offsetX),
+        Math.round(e.offsetY),
+        newColor,
+        newSize
+      );
+    }
+  }
+}
 
 canvas.addEventListener("mousemove", (e) => {
   const deltaX = e.clientX - lastX;
