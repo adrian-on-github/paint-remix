@@ -15,3 +15,8 @@ body {
   align-items: center;
   display: flex;
 }
+
+#selector-row {
+  justify-content: start;
+  flex-direction: row;
+}
