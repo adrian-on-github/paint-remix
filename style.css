@@ -18,7 +18,8 @@ body {
 
 #selector-row {
   justify-content: start;
-  flex-direction: row;
+  flex-direction: column;
+  column-gap: 5px;
 }
 
 .color-option {

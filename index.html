@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="selector-row">
-      <form>
+      <form id="colors">
         <div class="color-option">
           <input type="radio" id="red" name="color" value="red" />
           <label for="red" class="color-red"></label>
@@ -31,11 +31,15 @@
           <input type="radio" id="purple" name="color" value="purple" />
           <label for="purple" class="color-purple"></label>
         </div>
-
+      </form>
+      <div>
         <input type="color" id="color" />
         <label for="range">Size:</label>
         <input type="range" id="range" value="5" />
         <button id="reset">reset</button>
+      </div>
+
+      <form id="tools">
         <label for="pencil">Pencil:</label>
         <input type="radio" id="pencil" name="pencilCase" checked />
         <label for="rubber">Rubber:</label>

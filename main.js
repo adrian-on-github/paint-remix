@@ -8,21 +8,16 @@ const reset = document.getElementById("reset");
 const pencil = document.getElementById("pencil");
 const rubber = document.getElementById("rubber");
 const ctx = canvas.getContext("2d");
-const form = document.querySelectorAll("form");
+const form = document.querySelector("#colors");
+const tools = document.querySelector("#tools");
 
 let COLOR = "#000000";
 let SIZE = 5;
 let STATE = false;
 let lastX = 0;
 let lastY = 0;
-let FOCUS = "pencil";
+let TOOL = "pencil";
 let x, y;
-
-form.forEach((d) => {
-  d.addEventListener("change", (c) => {
-    COLOR = c.target.value;
-  });
-});
 
 canvas.addEventListener("mousemove", (e) => {
   x = e.offsetX;
@@ -31,7 +26,6 @@ canvas.addEventListener("mousemove", (e) => {
 
 color.addEventListener("change", (e) => {
   COLOR = e.target.value;
-  console.log(COLOR);
 });
 
 range.addEventListener("change", (e) => {
@@ -46,24 +40,22 @@ reset.addEventListener("click", (e) => {
   range.value = 5;
   SIZE = 5;
   COLOR = "#000000";
-  FOCUS = "pencil";
+  TOOL = "pencil";
 });
 
-pencil.addEventListener("focus", (e) => {
-  e.preventDefault();
-  FOCUS = "pencil";
+form.addEventListener("change", (e) => {
+  COLOR = e.target.value;
 });
 
-rubber.addEventListener("focus", (e) => {
-  e.preventDefault();
-  FOCUS = "rubber";
+tools.addEventListener("change", (e) => {
+  TOOL = e.target.id;
 });
 
 function drawPixel(x, y, color, size) {
   if (canvas.getContext) {
     ctx.beginPath();
     ctx.arc(x, y, size, 0, 2 * Math.PI);
-    ctx.fillStyle = FOCUS === "pencil" ? color : "#FFFFFF";
+    ctx.fillStyle = TOOL === "pencil" ? color : "#FFFFFF";
     ctx.fill();
   }
 }
