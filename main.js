@@ -2,10 +2,9 @@
 
 /* Functions to add:
 
-Rubber
 exact color switcher
 share function/ take ss
-size, color stay
+zoom
 
 */
 
@@ -21,7 +20,7 @@ const ctx = canvas.getContext("2d");
 let RED, GREEN, BLUE, YELLOW, BLACK;
 const targets = [];
 let COLOR = "#000000";
-let SIZE = 10;
+let SIZE = 5;
 let STATE = false;
 let lastX = 0;
 let lastY = 0;
@@ -32,6 +31,40 @@ let x, y;
 canvas.addEventListener("mousemove", (e) => {
   x = e.offsetX;
   y = e.offsetY;
+});
+
+color.addEventListener("change", (e) => {
+  COLOR = e.target.value;
+  console.log(COLOR);
+});
+
+range.addEventListener("change", (e) => {
+  SIZE = e.target.valueAsNumber / 2;
+  if (SIZE <= 5) {
+    SIZE += 2;
+  }
+  console.log(SIZE);
+});
+
+reset.addEventListener("click", (e) => {
+  e.preventDefault();
+  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  targets.splice(0, targets.length);
+  color.value = "#000000";
+  range.value = 5;
+  SIZE = 5;
+  COLOR = "#000000";
+  FOCUS = "pencil";
+});
+
+pencil.addEventListener("focus", (e) => {
+  e.preventDefault();
+  FOCUS = "pencil";
+});
+
+rubber.addEventListener("focus", (e) => {
+  e.preventDefault();
+  FOCUS = "rubber";
 });
 
 function drawPixel(x, y, color, size) {
@@ -113,11 +146,6 @@ canvas.addEventListener("mouseup", () => {
   STATE = false;
 });
 
-color.addEventListener("change", (e) => {
-  COLOR = e.target.value;
-  console.log(COLOR);
-});
-
 canvas.addEventListener("mousedown", (t) => {
   const newColor = COLOR;
   const newSize = SIZE;
@@ -146,14 +174,6 @@ canvas.addEventListener("mousedown", (t) => {
   });
 });
 
-range.addEventListener("change", (e) => {
-  SIZE = e.target.valueAsNumber / 2;
-  if (SIZE <= 5) {
-    SIZE += 2;
-  }
-  console.log(SIZE);
-});
-
 canvas.addEventListener("mousemove", (e) => {
   const deltaX = e.clientX - lastX;
   const deltaY = e.clientY - lastY;
@@ -172,20 +192,4 @@ canvas.addEventListener("mousemove", (e) => {
 
   lastX = e.clientX;
   lastY = e.clientY;
-});
-
-reset.addEventListener("click", (e) => {
-  e.preventDefault();
-  ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-  targets.splice(0, targets.length);
-});
-
-pencil.addEventListener("focus", (e) => {
-  e.preventDefault();
-  FOCUS = "pencil";
-});
-
-rubber.addEventListener("focus", (e) => {
-  e.preventDefault();
-  FOCUS = "rubber";
 });
